@@ -1,0 +1,2258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NAWI TestLab | OIML R 76 Test Reporting</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+:root{
+    --primary:#155eef;
+    --primary-dark:#0b3ea8;
+    --navy:#10233f;
+    --bg:#f5f7fb;
+    --card:#ffffff;
+    --border:#e3e8f0;
+    --text:#172033;
+    --muted:#667085;
+    --success:#16803c;
+    --success-bg:#eaf8ef;
+    --warning:#a15c00;
+    --warning-bg:#fff5df;
+    --danger:#b42318;
+    --danger-bg:#ffeded;
+}
+
+body{
+    font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+}
+
+/* LOGIN */
+
+.login-screen{
+    position:fixed;
+    inset:0;
+    background:
+        radial-gradient(circle at 20% 20%,#3478ef55,transparent 30%),
+        linear-gradient(135deg,#0b1d35,#155eef);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:999;
+}
+
+.login-box{
+    width:430px;
+    background:#fff;
+    border-radius:20px;
+    padding:36px;
+    box-shadow:0 30px 90px #0005;
+}
+
+.logo{
+    font-size:23px;
+    font-weight:800;
+}
+
+.logo span{
+    color:var(--primary);
+}
+
+.login-box h1{
+    margin-top:28px;
+    font-size:28px;
+}
+
+.login-description{
+    color:var(--muted);
+    margin:8px 0 25px;
+    line-height:1.5;
+}
+
+.login-box label{
+    display:block;
+    font-size:13px;
+    font-weight:600;
+    margin:14px 0 6px;
+}
+
+.login-box input,
+.login-box select,
+.form-input,
+.form-select,
+textarea{
+    width:100%;
+    border:1px solid #d5dce7;
+    border-radius:9px;
+    padding:12px;
+    outline:none;
+    font-size:14px;
+    background:#fff;
+}
+
+.login-box input:focus,
+.form-input:focus,
+.form-select:focus,
+textarea:focus{
+    border-color:var(--primary);
+    box-shadow:0 0 0 3px #155eef18;
+}
+
+.login-button{
+    width:100%;
+    border:none;
+    margin-top:22px;
+    padding:13px;
+    border-radius:9px;
+    background:var(--primary);
+    color:white;
+    font-size:15px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.login-button:hover{
+    background:var(--primary-dark);
+}
+
+.demo-note{
+    text-align:center;
+    font-size:12px;
+    color:var(--muted);
+    margin-top:15px;
+}
+
+/* APPLICATION */
+
+.app{
+    display:none;
+}
+
+.topbar{
+    height:70px;
+    background:#fff;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 28px;
+    position:sticky;
+    top:0;
+    z-index:20;
+}
+
+.topbar-right{
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+
+.user-info{
+    text-align:right;
+    font-size:13px;
+}
+
+.user-role{
+    color:var(--muted);
+    font-size:11px;
+}
+
+.avatar{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:var(--primary);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:700;
+}
+
+.layout{
+    display:flex;
+    min-height:calc(100vh - 70px);
+}
+
+.sidebar{
+    width:235px;
+    background:var(--navy);
+    color:#dce7f8;
+    padding:20px 14px;
+    flex-shrink:0;
+}
+
+.sidebar-title{
+    font-size:11px;
+    text-transform:uppercase;
+    color:#8298b8;
+    margin:18px 12px 8px;
+    letter-spacing:.08em;
+}
+
+.nav-button{
+    width:100%;
+    background:none;
+    border:0;
+    color:#dce7f8;
+    padding:12px 13px;
+    margin:2px 0;
+    text-align:left;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:14px;
+}
+
+.nav-button:hover,
+.nav-button.active{
+    background:#1d4275;
+    color:#fff;
+}
+
+.main{
+    flex:1;
+    padding:30px;
+    max-width:1500px;
+    overflow-x:hidden;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+.page-header{
+    margin-bottom:25px;
+}
+
+.page-header h1{
+    font-size:27px;
+}
+
+.page-header p{
+    color:var(--muted);
+    margin-top:6px;
+}
+
+/* CARDS */
+
+.stat-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
+}
+
+.stat-card{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:19px;
+}
+
+.stat-label{
+    color:var(--muted);
+    font-size:13px;
+}
+
+.stat-number{
+    font-size:29px;
+    font-weight:800;
+    margin:8px 0;
+}
+
+.stat-foot{
+    color:var(--muted);
+    font-size:12px;
+}
+
+/* PANELS */
+
+.content-grid{
+    display:grid;
+    grid-template-columns:1.4fr .6fr;
+    gap:18px;
+    margin-top:18px;
+}
+
+.panel{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:20px;
+}
+
+.panel-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:17px;
+}
+
+.panel-title h3{
+    font-size:17px;
+}
+
+/* TABLE */
+
+.table-wrap{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:13px;
+}
+
+th{
+    color:#667085;
+    font-weight:600;
+    text-align:left;
+    padding:11px;
+    border-bottom:1px solid var(--border);
+}
+
+td{
+    padding:12px 11px;
+    border-bottom:1px solid #edf0f4;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:700;
+}
+
+.pass{
+    background:var(--success-bg);
+    color:var(--success);
+}
+
+.pending{
+    background:var(--warning-bg);
+    color:var(--warning);
+}
+
+.fail{
+    background:var(--danger-bg);
+    color:var(--danger);
+}
+
+/* BUTTONS */
+
+.btn{
+    border:none;
+    border-radius:8px;
+    padding:10px 15px;
+    font-weight:700;
+    cursor:pointer;
+    font-size:13px;
+}
+
+.btn-primary{
+    background:var(--primary);
+    color:#fff;
+}
+
+.btn-primary:hover{
+    background:var(--primary-dark);
+}
+
+.btn-secondary{
+    background:#edf4ff;
+    color:#1554af;
+}
+
+.btn-danger{
+    background:var(--danger-bg);
+    color:var(--danger);
+}
+
+.button-row{
+    display:flex;
+    gap:9px;
+    flex-wrap:wrap;
+    margin-top:18px;
+}
+
+/* FORMS */
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:17px;
+}
+
+.form-group label{
+    display:block;
+    font-size:12px;
+    color:#667085;
+    margin-bottom:6px;
+    font-weight:600;
+}
+
+.full{
+    grid-column:1/-1;
+}
+
+.section-heading{
+    margin:25px 0 15px;
+    font-size:16px;
+    border-bottom:1px solid var(--border);
+    padding-bottom:10px;
+}
+
+/* TEST STEPS */
+
+.steps{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:7px;
+    margin-bottom:20px;
+}
+
+.step{
+    padding:11px;
+    background:#e9edf4;
+    border-radius:8px;
+    text-align:center;
+    font-size:12px;
+    color:#596579;
+}
+
+.step.active{
+    background:var(--primary);
+    color:white;
+}
+
+/* RESULT */
+
+.result-box{
+    margin-top:20px;
+    padding:18px;
+    border-radius:12px;
+    border:1px solid;
+}
+
+.result-pass{
+    background:var(--success-bg);
+    border-color:#b8dfc5;
+}
+
+.result-fail{
+    background:var(--danger-bg);
+    border-color:#efb7b2;
+}
+
+.result-title{
+    font-size:20px;
+    font-weight:800;
+    margin-bottom:8px;
+}
+
+.calculation-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+    margin-top:15px;
+}
+
+.calc-card{
+    background:#fff;
+    padding:12px;
+    border-radius:8px;
+    border:1px solid var(--border);
+}
+
+.calc-label{
+    color:var(--muted);
+    font-size:11px;
+}
+
+.calc-value{
+    font-size:18px;
+    font-weight:800;
+    margin-top:4px;
+}
+
+/* UPLOAD */
+
+.upload{
+    border:2px dashed #ccd5e3;
+    border-radius:10px;
+    padding:22px;
+    text-align:center;
+    color:var(--muted);
+    cursor:pointer;
+}
+
+.upload:hover{
+    border-color:var(--primary);
+}
+
+/* TIMELINE */
+
+.timeline{
+    border-left:2px solid #dce3ee;
+    margin-left:7px;
+    padding-left:20px;
+}
+
+.timeline-item{
+    position:relative;
+    margin-bottom:22px;
+}
+
+.timeline-item:before{
+    content:"";
+    position:absolute;
+    width:9px;
+    height:9px;
+    background:var(--primary);
+    border-radius:50%;
+    left:-26px;
+    top:5px;
+}
+
+/* MODAL */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:#09152899;
+    z-index:100;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.modal.open{
+    display:flex;
+}
+
+.modal-box{
+    background:white;
+    border-radius:15px;
+    width:min(850px,100%);
+    max-height:90vh;
+    overflow:auto;
+    padding:25px;
+}
+
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:18px;
+}
+
+.close{
+    border:none;
+    background:none;
+    font-size:25px;
+    cursor:pointer;
+}
+
+/* TOAST */
+
+.toast{
+    position:fixed;
+    right:25px;
+    bottom:25px;
+    background:#172033;
+    color:#fff;
+    padding:13px 18px;
+    border-radius:9px;
+    display:none;
+    z-index:300;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1000px){
+    .stat-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .content-grid{
+        grid-template-columns:1fr;
+    }
+
+    .sidebar{
+        width:75px;
+    }
+
+    .sidebar .nav-text,
+    .sidebar-title{
+        display:none;
+    }
+}
+
+@media(max-width:700px){
+    .main{
+        padding:18px;
+    }
+
+    .stat-grid,
+    .form-grid,
+    .calculation-grid{
+        grid-template-columns:1fr;
+    }
+
+    .steps{
+        grid-template-columns:1fr;
+    }
+
+    .topbar{
+        padding:0 15px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+
+<div class="login-screen" id="loginScreen">
+
+<div class="login-box">
+
+<div class="logo">
+NAWI<span>TestLab</span>
+</div>
+
+<h1>Laboratory Sign In</h1>
+
+<p class="login-description">
+Digital Test Report Generation System for Non-Automatic Weighing Instruments
+</p>
+
+<label>User ID</label>
+<input id="loginUser" value="TEST-OFFICER-001">
+
+<label>Password</label>
+<input id="loginPassword" type="password" value="demo123">
+
+<label>Role</label>
+<select id="loginRole">
+<option>Testing Officer</option>
+<option>Laboratory Administrator</option>
+<option>Reviewer</option>
+</select>
+
+<button class="login-button" onclick="login()">
+Sign In
+</button>
+
+<div class="demo-note">
+Prototype mode • Demo credentials pre-filled
+</div>
+
+</div>
+
+</div>
+
+
+<!-- APPLICATION -->
+
+<div class="app" id="application">
+
+<header class="topbar">
+
+<div class="logo">
+NAWI<span>TestLab</span>
+</div>
+
+<div class="topbar-right">
+
+<div class="user-info">
+<b id="headerUser">Testing Officer</b>
+<div class="user-role">Department of Consumer Affairs</div>
+</div>
+
+<div class="avatar">TO</div>
+
+</div>
+
+</header>
+
+
+<div class="layout">
+
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+<div class="sidebar-title">Workspace</div>
+
+<button class="nav-button active" onclick="openPage('dashboard',this)">
+▦ <span class="nav-text">Dashboard</span>
+</button>
+
+<button class="nav-button" onclick="openPage('instrument',this)">
+⚖ <span class="nav-text">Instrument Details</span>
+</button>
+
+<button class="nav-button" onclick="openPage('test',this)">
+✓ <span class="nav-text">New Test</span>
+</button>
+
+<button class="nav-button" onclick="openPage('reports',this)">
+▤ <span class="nav-text">Test Reports</span>
+</button>
+
+<div class="sidebar-title">Management</div>
+
+<button class="nav-button" onclick="openPage('repository',this)">
+⌕ <span class="nav-text">Repository</span>
+</button>
+
+<button class="nav-button" onclick="openPage('history',this)">
+◷ <span class="nav-text">Test History</span>
+</button>
+
+<button class="nav-button" onclick="openPage('users',this)">
+♙ <span class="nav-text">Users & Roles</span>
+</button>
+
+<div class="sidebar-title">System</div>
+
+<button class="nav-button" onclick="openPage('rules',this)">
+⚙ <span class="nav-text">Compliance Rules</span>
+</button>
+
+</aside>
+
+
+<!-- MAIN -->
+
+<main class="main">
+
+
+<!-- DASHBOARD -->
+
+<section class="page active" id="dashboard">
+
+<div class="page-header">
+
+<h1>Testing Dashboard</h1>
+
+<p>
+Monitor NAWI type-evaluation tests, compliance results and report generation.
+</p>
+
+</div>
+
+
+<div class="stat-grid">
+
+<div class="stat-card">
+<div class="stat-label">Total Tests</div>
+<div class="stat-number">128</div>
+<div class="stat-foot">Current evaluation cycle</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-label">In Progress</div>
+<div class="stat-number">07</div>
+<div class="stat-foot">Awaiting test completion</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-label">Passed</div>
+<div class="stat-number">104</div>
+<div class="stat-foot">Validated test reports</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-label">Reports Generated</div>
+<div class="stat-number">121</div>
+<div class="stat-foot">Digital repository</div>
+</div>
+
+</div>
+
+
+<div class="content-grid">
+
+<div class="panel">
+
+<div class="panel-title">
+
+<h3>Recent Test Reports</h3>
+
+<button class="btn btn-secondary"
+onclick="openPage('reports')">
+View All
+</button>
+
+</div>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+<tr>
+<th>Report ID</th>
+<th>Manufacturer</th>
+<th>Model</th>
+<th>Test</th>
+<th>Status</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td>TR-2026-0128</td>
+<td>Precision Instruments</td>
+<td>PI-500</td>
+<td>Accuracy</td>
+<td><span class="badge pass">PASS</span></td>
+</tr>
+
+<tr>
+<td>TR-2026-0127</td>
+<td>WeighTech India</td>
+<td>WT-PS500</td>
+<td>Repeatability</td>
+<td><span class="badge pass">PASS</span></td>
+</tr>
+
+<tr>
+<td>TR-2026-0126</td>
+<td>AccuMeasure</td>
+<td>AM-30</td>
+<td>Accuracy</td>
+<td><span class="badge pending">IN REVIEW</span></td>
+</tr>
+
+<tr>
+<td>TR-2026-0125</td>
+<td>ScaleTech</td>
+<td>ST-1000</td>
+<td>Zero Setting</td>
+<td><span class="badge pass">PASS</span></td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<div class="panel">
+
+<div class="panel-title">
+<h3>Quick Actions</h3>
+</div>
+
+<p style="color:#667085;font-size:13px;line-height:1.5">
+Start a new NAWI evaluation, enter observations and automatically determine the prototype compliance result.
+</p>
+
+<div class="button-row">
+
+<button class="btn btn-primary"
+onclick="openPage('instrument')">
++ New Evaluation
+</button>
+
+<button class="btn btn-secondary"
+onclick="openPage('repository')">
+Search Reports
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- INSTRUMENT -->
+
+<section class="page" id="instrument">
+
+<div class="page-header">
+
+<h1>Instrument Details</h1>
+
+<p>
+Register technical information before beginning the evaluation.
+</p>
+
+</div>
+
+
+<div class="panel">
+
+<h3 class="section-heading">Manufacturer Information</h3>
+
+<div class="form-grid">
+
+<div class="form-group">
+<label>Manufacturer Name</label>
+<input class="form-input" id="manufacturer"
+value="Precision Instruments India Pvt. Ltd.">
+</div>
+
+<div class="form-group">
+<label>Manufacturer Address</label>
+<input class="form-input"
+value="Industrial Estate, New Delhi, India">
+</div>
+
+<div class="form-group">
+<label>Model Designation</label>
+<input class="form-input" id="model"
+value="PI-500">
+</div>
+
+<div class="form-group">
+<label>Serial Number</label>
+<input class="form-input" id="serial"
+value="PI500-2026-014">
+</div>
+
+</div>
+
+
+<h3 class="section-heading">Instrument Technical Specifications</h3>
+
+<div class="form-grid">
+
+<div class="form-group">
+<label>Instrument Type</label>
+
+<select class="form-select" id="instrumentType">
+
+<option>Electronic Platform Scale</option>
+<option>Electronic Balance</option>
+<option>Bench Scale</option>
+<option>Weighbridge</option>
+<option>Retail Weighing Instrument</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+<label>Maximum Capacity Max (kg)</label>
+<input class="form-input" id="maxCapacity"
+type="number" value="500">
+</div>
+
+<div class="form-group">
+<label>Verification Scale Interval e (kg)</label>
+<input class="form-input" id="scaleInterval"
+type="number" step="0.01" value="0.1">
+</div>
+
+<div class="form-group">
+<label>Class</label>
+
+<select class="form-select">
+<option>Class III</option>
+<option>Class II</option>
+<option>Class IIII</option>
+</select>
+
+</div>
+
+<div class="form-group">
+<label>Number of Verification Scale Intervals</label>
+
+<input class="form-input"
+id="intervals"
+value="5000"
+readonly>
+
+</div>
+
+<div class="form-group">
+<label>Software / Firmware Version</label>
+
+<input class="form-input"
+value="FW-2.6.1">
+
+</div>
+
+</div>
+
+
+<h3 class="section-heading">
+Laboratory & Environmental Conditions
+</h3>
+
+<div class="form-grid">
+
+<div class="form-group">
+<label>Laboratory Temperature (°C)</label>
+<input class="form-input" value="23.4">
+</div>
+
+<div class="form-group">
+<label>Relative Humidity (%)</label>
+<input class="form-input" value="52">
+</div>
+
+<div class="form-group">
+<label>Atmospheric Pressure (hPa)</label>
+<input class="form-input" value="1012">
+</div>
+
+<div class="form-group">
+<label>Laboratory ID</label>
+<input class="form-input" value="NTH-LAB-01">
+</div>
+
+</div>
+
+
+<h3 class="section-heading">
+Supporting Documents
+</h3>
+
+<div class="upload"
+onclick="document.getElementById('fileInput').click()">
+
+📎
+
+<br>
+
+<b>Attach photographs or supporting documents</b>
+
+<br>
+
+<span id="fileName">
+Images, calibration documents and other supporting files
+</span>
+
+<input
+type="file"
+id="fileInput"
+multiple
+hidden
+onchange="showFiles()">
+
+</div>
+
+
+<div class="button-row">
+
+<button class="btn btn-primary"
+onclick="saveInstrument()">
+Save Instrument & Continue
+</button>
+
+<button class="btn btn-secondary">
+Save Draft
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- TEST -->
+
+<section class="page" id="test">
+
+<div class="page-header">
+
+<h1>NAWI Type Evaluation</h1>
+
+<p>
+Record test observations and perform automated validation.
+</p>
+
+</div>
+
+
+<div class="steps">
+
+<div class="step active">1. Instrument</div>
+<div class="step active">2. Conditions</div>
+<div class="step active">3. Observations</div>
+<div class="step">4. Compliance</div>
+<div class="step">5. Report</div>
+
+</div>
+
+
+<div class="panel">
+
+<h3 class="section-heading">
+Test Selection
+</h3>
+
+<div class="form-grid">
+
+<div class="form-group">
+
+<label>Test Procedure</label>
+
+<select class="form-select" id="testProcedure">
+
+<option>Accuracy / Indication Error</option>
+<option>Repeatability</option>
+<option>Eccentric Loading</option>
+<option>Zero Setting</option>
+<option>Tare Operation</option>
+<option>Display / Functional Check</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>Test Reference</label>
+
+<select class="form-select">
+
+<option>OIML R 76 — Configured Rule</option>
+<option>Laboratory Test Procedure</option>
+
+</select>
+
+</div>
+
+</div>
+
+
+<h3 class="section-heading">
+Observation Data
+</h3>
+
+<div class="form-grid">
+
+<div class="form-group">
+<label>Applied Load (kg)</label>
+<input class="form-input"
+id="appliedLoad"
+type="number"
+step="0.01"
+value="100">
+</div>
+
+<div class="form-group">
+<label>Indicated Value (kg)</label>
+<input class="form-input"
+id="indicatedValue"
+type="number"
+step="0.01"
+value="100.03">
+</div>
+
+<div class="form-group">
+<label>Permissible Error (kg)</label>
+<input class="form-input"
+id="permissibleError"
+type="number"
+step="0.01"
+value="0.05">
+</div>
+
+<div class="form-group">
+<label>Repeat Reading (kg)</label>
+<input class="form-input"
+id="repeatReading"
+type="number"
+step="0.01"
+value="100.02">
+</div>
+
+<div class="form-group full">
+<label>Officer Observation / Remarks</label>
+
+<textarea
+id="remarks"
+rows="4"
+placeholder="Enter observations recorded during the test...">
+Stable indication observed under applied load.
+</textarea>
+
+</div>
+
+</div>
+
+
+<div class="button-row">
+
+<button class="btn btn-primary"
+onclick="calculateCompliance()">
+✓ Validate & Calculate Compliance
+</button>
+
+<button class="btn btn-secondary"
+onclick="clearTest()">
+Clear
+</button>
+
+</div>
+
+
+<div id="complianceResult"></div>
+
+</div>
+
+</section>
+
+
+<!-- REPORTS -->
+
+<section class="page" id="reports">
+
+<div class="page-header">
+
+<h1>Test Reports</h1>
+
+<p>
+Review generated reports and export standardized test records.
+</p>
+
+</div>
+
+
+<div class="panel">
+
+<div style="display:flex;gap:10px;margin-bottom:18px">
+
+<input
+class="form-input"
+placeholder="Search Report ID, manufacturer or model..."
+style="flex:1"
+oninput="filterReports(this.value)">
+
+<button
+class="btn btn-primary"
+onclick="printReport()">
+🖨 Print Report
+</button>
+
+</div>
+
+
+<div class="table-wrap">
+
+<table id="reportTable">
+
+<thead>
+
+<tr>
+<th>Report ID</th>
+<th>Manufacturer</th>
+<th>Model</th>
+<th>Date</th>
+<th>Result</th>
+<th>Action</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+<td>TR-2026-0128</td>
+<td>Precision Instruments</td>
+<td>PI-500</td>
+<td>27 Sep 2026</td>
+<td><span class="badge pass">PASS</span></td>
+<td>
+<button class="btn btn-secondary"
+onclick="viewReport('TR-2026-0128')">
+View
+</button>
+</td>
+</tr>
+
+<tr>
+<td>TR-2026-0127</td>
+<td>WeighTech India</td>
+<td>WT-PS500</td>
+<td>26 Sep 2026</td>
+<td><span class="badge pass">PASS</span></td>
+<td>
+<button class="btn btn-secondary">
+View
+</button>
+</td>
+</tr>
+
+<tr>
+<td>TR-2026-0126</td>
+<td>AccuMeasure</td>
+<td>AM-30</td>
+<td>25 Sep 2026</td>
+<td><span class="badge pending">IN REVIEW</span></td>
+<td>
+<button class="btn btn-secondary">
+View
+</button>
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- REPOSITORY -->
+
+<section class="page" id="repository">
+
+<div class="page-header">
+
+<h1>Digital Report Repository</h1>
+
+<p>
+Centralized searchable storage for completed evaluation reports.
+</p>
+
+</div>
+
+
+<div class="content-grid">
+
+<div class="panel">
+
+<div class="panel-title">
+
+<h3>Repository Statistics</h3>
+
+</div>
+
+<div class="stat-grid"
+style="grid-template-columns:repeat(2,1fr)">
+
+<div class="stat-card">
+<div class="stat-label">Completed</div>
+<div class="stat-number">121</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-label">This Month</div>
+<div class="stat-number">48</div>
+</div>
+
+</div>
+
+</div>
+
+
+<div class="panel">
+
+<h3>Search & Retrieval</h3>
+
+<p style="font-size:13px;color:#667085;margin:10px 0 15px">
+Reports can be retrieved using report ID, instrument model or manufacturer.
+</p>
+
+<button class="btn btn-primary"
+onclick="openPage('reports')">
+Open Report Repository
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- HISTORY -->
+
+<section class="page" id="history">
+
+<div class="page-header">
+
+<h1>Instrument Test History</h1>
+
+<p>
+Complete audit trail of testing activity.
+</p>
+
+</div>
+
+
+<div class="panel">
+
+<div class="timeline">
+
+<div class="timeline-item">
+
+<b>Compliance calculation completed</b>
+
+<p style="color:#667085;font-size:12px">
+TR-2026-0128 · 10:42 AM
+</p>
+
+</div>
+
+<div class="timeline-item">
+
+<b>Accuracy observation recorded</b>
+
+<p style="color:#667085;font-size:12px">
+TR-2026-0128 · 10:36 AM
+</p>
+
+</div>
+
+<div class="timeline-item">
+
+<b>Environmental conditions recorded</b>
+
+<p style="color:#667085;font-size:12px">
+TR-2026-0128 · 10:31 AM
+</p>
+
+</div>
+
+<div class="timeline-item">
+
+<b>Instrument registered</b>
+
+<p style="color:#667085;font-size:12px">
+PI500-2026-014 · 10:27 AM
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- USERS -->
+
+<section class="page" id="users">
+
+<div class="page-header">
+
+<h1>Users & Role-Based Access</h1>
+
+<p>
+Prototype representation of controlled laboratory access.
+</p>
+
+</div>
+
+
+<div class="panel">
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+<th>User</th>
+<th>Role</th>
+<th>Permissions</th>
+<th>Status</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+<td>TEST-OFFICER-001</td>
+<td>Testing Officer</td>
+<td>Enter tests, observations, generate reports</td>
+<td><span class="badge pass">ACTIVE</span></td>
+</tr>
+
+<tr>
+<td>LAB-ADMIN-001</td>
+<td>Laboratory Administrator</td>
+<td>Users, instruments, reports, configuration</td>
+<td><span class="badge pass">ACTIVE</span></td>
+</tr>
+
+<tr>
+<td>REVIEWER-001</td>
+<td>Reviewer</td>
+<td>Review and approve test reports</td>
+<td><span class="badge pass">ACTIVE</span></td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- RULES -->
+
+<section class="page" id="rules">
+
+<div class="page-header">
+
+<h1>Compliance Rules</h1>
+
+<p>
+Configurable rule layer designed to support future recommendation revisions.
+</p>
+
+</div>
+
+
+<div class="panel">
+
+<div class="form-grid">
+
+<div class="form-group">
+<label>Rule Set</label>
+
+<select class="form-select">
+<option>OIML R 76 — Current Configuration</option>
+<option>Laboratory Custom Procedure</option>
+</select>
+
+</div>
+
+<div class="form-group">
+<label>Version</label>
+<input class="form-input" value="R76-CONFIG-2026.1">
+</div>
+
+<div class="form-group">
+<label>Calculation Precision</label>
+<input class="form-input" value="0.001">
+</div>
+
+<div class="form-group">
+<label>Validation Mode</label>
+<select class="form-select">
+<option>Strict</option>
+<option>Standard</option>
+</select>
+</div>
+
+</div>
+
+
+<div style="margin-top:25px;padding:15px;background:#f5f8fc;border-radius:10px">
+
+<b>Architecture note</b>
+
+<p style="font-size:13px;color:#667085;margin-top:6px;line-height:1.5">
+
+Compliance logic is separated from the user interface so that future
+OIML recommendation revisions can be incorporated by updating the
+configured rule set rather than rebuilding the complete application.
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+</main>
+
+</div>
+
+</div>
+
+
+<!-- REPORT MODAL -->
+
+<div class="modal" id="reportModal">
+
+<div class="modal-box">
+
+<div class="modal-header">
+
+<h2>NAWI Test Report</h2>
+
+<button class="close"
+onclick="closeModal()">×</button>
+
+</div>
+
+<div id="reportContent">
+
+<h3>Test Report — TR-2026-0128</h3>
+
+<br>
+
+<table>
+
+<tr>
+<td><b>Manufacturer</b></td>
+<td id="reportManufacturer">
+Precision Instruments India Pvt. Ltd.
+</td>
+</tr>
+
+<tr>
+<td><b>Model</b></td>
+<td id="reportModel">PI-500</td>
+</tr>
+
+<tr>
+<td><b>Serial Number</b></td>
+<td id="reportSerial">PI500-2026-014</td>
+</tr>
+
+<tr>
+<td><b>Instrument Type</b></td>
+<td id="reportType">
+Electronic Platform Scale
+</td>
+</tr>
+
+<tr>
+<td><b>Test Procedure</b></td>
+<td id="reportTest">
+Accuracy / Indication Error
+</td>
+</tr>
+
+<tr>
+<td><b>Applied Load</b></td>
+<td id="reportLoad">100 kg</td>
+</tr>
+
+<tr>
+<td><b>Indicated Value</b></td>
+<td id="reportReading">100.03 kg</td>
+</tr>
+
+<tr>
+<td><b>Absolute Error</b></td>
+<td id="reportError">0.03 kg</td>
+</tr>
+
+<tr>
+<td><b>Permissible Error</b></td>
+<td id="reportPermissible">0.05 kg</td>
+</tr>
+
+<tr>
+<td><b>Compliance</b></td>
+<td>
+<span class="badge pass">PASS</span>
+</td>
+</tr>
+
+</table>
+
+<br>
+
+<div style="padding:15px;background:#f5f7fb;border-radius:8px">
+
+<b>Laboratory Review</b>
+
+<p style="font-size:13px;color:#667085;margin-top:7px">
+The entered observations have been validated by the configured
+prototype calculation engine. Final production use requires
+verification of the applicable OIML R 76 clauses and laboratory
+approval procedures.
+</p>
+
+</div>
+
+<br>
+
+<div class="button-row">
+
+<button class="btn btn-primary"
+onclick="printReport()">
+Print / Save as PDF
+</button>
+
+<button class="btn btn-secondary"
+onclick="downloadReport()">
+Download Editable Data
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+
+/* LOGIN */
+
+function login(){
+
+    const user =
+        document.getElementById("loginUser").value ||
+        "TEST-OFFICER-001";
+
+    const role =
+        document.getElementById("loginRole").value;
+
+    document.getElementById("headerUser").innerText =
+        role + " · " + user;
+
+    document.getElementById("loginScreen").style.display="none";
+
+    document.getElementById("application").style.display="block";
+
+    toast("Signed in successfully");
+
+}
+
+
+/* NAVIGATION */
+
+function openPage(page,button){
+
+    document
+        .querySelectorAll(".page")
+        .forEach(p=>p.classList.remove("active"));
+
+    const target =
+        document.getElementById(page);
+
+    if(target){
+        target.classList.add("active");
+    }
+
+    document
+        .querySelectorAll(".nav-button")
+        .forEach(b=>b.classList.remove("active"));
+
+    if(button){
+        button.classList.add("active");
+    }
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+}
+
+
+/* FILES */
+
+function showFiles(){
+
+    const files =
+        document.getElementById("fileInput").files;
+
+    if(!files.length){
+        return;
+    }
+
+    document.getElementById("fileName").innerText =
+        files.length + " file(s) attached";
+
+    toast("Supporting documents attached");
+
+}
+
+
+/* INSTRUMENT */
+
+function saveInstrument(){
+
+    const max =
+        Number(document.getElementById("maxCapacity").value);
+
+    const e =
+        Number(document.getElementById("scaleInterval").value);
+
+    if(max>0 && e>0){
+
+        const n = max/e;
+
+        document.getElementById("intervals").value =
+            Number.isInteger(n) ? n : n.toFixed(2);
+
+    }
+
+    toast("Instrument details saved");
+
+    setTimeout(()=>{
+        openPage(
+            "test",
+            document.querySelectorAll(".nav-button")[3]
+        );
+    },500);
+
+}
+
+
+/* COMPLIANCE */
+
+function calculateCompliance(){
+
+    const applied =
+        Number(document.getElementById("appliedLoad").value);
+
+    const indicated =
+        Number(document.getElementById("indicatedValue").value);
+
+    const permissible =
+        Number(document.getElementById("permissibleError").value);
+
+    const repeat =
+        Number(document.getElementById("repeatReading").value);
+
+    if(
+        isNaN(applied) ||
+        isNaN(indicated) ||
+        isNaN(permissible)
+    ){
+
+        toast("Please enter valid observation data");
+
+        return;
+    }
+
+    const error =
+        Math.abs(indicated-applied);
+
+    const repeatDifference =
+        Math.abs(indicated-repeat);
+
+    const pass =
+        error <= permissible;
+
+    const result =
+        document.getElementById("complianceResult");
+
+    result.innerHTML = `
+
+    <div class="result-box ${pass ? "result-pass":"result-fail"}">
+
+        <div class="result-title">
+
+            ${pass ? "✓ COMPLIANCE: PASS":
+                    "✕ COMPLIANCE: FAIL"}
+
+        </div>
+
+        <p>
+
+            The prototype validation engine compared the
+            observed indication error with the configured
+            permissible error.
+
+        </p>
+
+
+        <div class="calculation-grid">
+
+            <div class="calc-card">
+
+                <div class="calc-label">
+                    Applied Load
+                </div>
+
+                <div class="calc-value">
+                    ${applied.toFixed(2)} kg
+                </div>
+
+            </div>
+
+
+            <div class="calc-card">
+
+                <div class="calc-label">
+                    Indicated Value
+                </div>
+
+                <div class="calc-value">
+                    ${indicated.toFixed(2)} kg
+                </div>
+
+            </div>
+
+
+            <div class="calc-card">
+
+                <div class="calc-label">
+                    Absolute Error
+                </div>
+
+                <div class="calc-value">
+                    ${error.toFixed(3)} kg
+                </div>
+
+            </div>
+
+
+            <div class="calc-card">
+
+                <div class="calc-label">
+                    Permissible Error
+                </div>
+
+                <div class="calc-value">
+                    ${permissible.toFixed(3)} kg
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div style="
+            margin-top:15px;
+            font-size:13px;
+            color:#667085">
+
+            Repeat-reading difference:
+            <b>${repeatDifference.toFixed(3)} kg</b>
+
+        </div>
+
+
+        <div class="button-row">
+
+            <button
+                class="btn btn-primary"
+                onclick="generateReport()">
+
+                Generate Standardized Report
+
+            </button>
+
+            <button
+                class="btn btn-secondary"
+                onclick="toast('Observation saved to test history')">
+
+                Save Observation
+
+            </button>
+
+        </div>
+
+    </div>
+
+    `;
+
+    toast(
+        pass ?
+        "Validation completed — PASS":
+        "Validation completed — FAIL"
+    );
+
+}
+
+
+/* REPORT */
+
+function generateReport(){
+
+    document.getElementById("reportManufacturer").innerText =
+        document.getElementById("manufacturer")?.value ||
+        "Precision Instruments India Pvt. Ltd.";
+
+    document.getElementById("reportModel").innerText =
+        document.getElementById("model")?.value ||
+        "PI-500";
+
+    document.getElementById("reportSerial").innerText =
+        document.getElementById("serial")?.value ||
+        "PI500-2026-014";
+
+    document.getElementById("reportType").innerText =
+        document.getElementById("instrumentType")?.value ||
+        "Electronic Platform Scale";
+
+    document.getElementById("reportTest").innerText =
+        document.getElementById("testProcedure")?.value ||
+        "Accuracy / Indication Error";
+
+    const applied =
+        Number(document.getElementById("appliedLoad").value);
+
+    const indicated =
+        Number(document.getElementById("indicatedValue").value);
+
+    const permissible =
+        Number(document.getElementById("permissibleError").value);
+
+    const error =
+        Math.abs(indicated-applied);
+
+    document.getElementById("reportLoad").innerText =
+        applied.toFixed(2)+" kg";
+
+    document.getElementById("reportReading").innerText =
+        indicated.toFixed(2)+" kg";
+
+    document.getElementById("reportError").innerText =
+        error.toFixed(3)+" kg";
+
+    document.getElementById("reportPermissible").innerText =
+        permissible.toFixed(3)+" kg";
+
+    document
+        .getElementById("reportModal")
+        .classList.add("open");
+
+    toast("Test report generated");
+
+}
+
+
+/* VIEW REPORT */
+
+function viewReport(id){
+
+    document
+        .getElementById("reportModal")
+        .classList.add("open");
+
+    toast("Opened "+id);
+
+}
+
+
+/* CLOSE */
+
+function closeModal(){
+
+    document
+        .getElementById("reportModal")
+        .classList.remove("open");
+
+}
+
+
+/* PRINT */
+
+function printReport(){
+
+    const content =
+        document.getElementById("reportContent").innerHTML;
+
+    const windowPrint =
+        window.open("","_blank");
+
+    windowPrint.document.write(`
+
+        <html>
+
+        <head>
+
+        <title>NAWI Test Report</title>
+
+        <style>
+
+        body{
+            font-family:Arial;
+            padding:40px;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+        }
+
+        td{
+            border:1px solid #ddd;
+            padding:10px;
+        }
+
+        h1,h2,h3{
+            margin-bottom:20px;
+        }
+
+        </style>
+
+        </head>
+
+        <body>
+
+        <h1>NAWI TEST REPORT</h1>
+
+        ${content}
+
+        </body>
+
+        </html>
+
+    `);
+
+    windowPrint.document.close();
+
+    windowPrint.print();
+
+}
+
+
+/* DOWNLOAD EDITABLE */
+
+function downloadReport(){
+
+    const manufacturer =
+        document.getElementById("manufacturer")?.value ||
+        "Precision Instruments India";
+
+    const model =
+        document.getElementById("model")?.value ||
+        "PI-500";
+
+    const data = {
+
+        reportId:"TR-2026-0128",
+
+        manufacturer:manufacturer,
+
+        model:model,
+
+        instrument:
+            document.getElementById("instrumentType")?.value,
+
+        test:
+            document.getElementById("testProcedure")?.value,
+
+        appliedLoad:
+            document.getElementById("appliedLoad")?.value,
+
+        indicatedValue:
+            document.getElementById("indicatedValue")?.value,
+
+        generatedAt:
+            new Date().toISOString()
+
+    };
+
+
+    const blob =
+        new Blob(
+            [JSON.stringify(data,null,2)],
+            {type:"application/json"}
+        );
+
+    const url =
+        URL.createObjectURL(blob);
+
+    const a =
+        document.createElement("a");
+
+    a.href=url;
+
+    a.download=
+        "NAWI-Test-Report-TR-2026-0128.json";
+
+    a.click();
+
+    URL.revokeObjectURL(url);
+
+    toast("Editable report data downloaded");
+
+}
+
+
+/* SEARCH */
+
+function filterReports(value){
+
+    const search =
+        value.toLowerCase();
+
+    document
+        .querySelectorAll("#reportTable tbody tr")
+        .forEach(row=>{
+
+            row.style.display =
+                row.innerText
+                .toLowerCase()
+                .includes(search)
+                ? ""
+                : "none";
+
+        });
+
+}
+
+
+/* CLEAR */
+
+function clearTest(){
+
+    document.getElementById("appliedLoad").value="";
+
+    document.getElementById("indicatedValue").value="";
+
+    document.getElementById("permissibleError").value="";
+
+    document.getElementById("repeatReading").value="";
+
+    document.getElementById("complianceResult").innerHTML="";
+
+}
+
+
+/* TOAST */
+
+function toast(message){
+
+    const t =
+        document.getElementById("toast");
+
+    t.innerText=message;
+
+    t.style.display="block";
+
+    setTimeout(()=>{
+        t.style.display="none";
+    },2500);
+
+}
+
+</script>
+
+</body>
+</html>
